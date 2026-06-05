@@ -103,3 +103,32 @@ export async function getTopSeinen(page = 1, perPage = 10) {
   })
   return response.data.data
 }
+
+export async function getTopSeinenFiltered(page = 1, perPage = 10) {
+  const { TOP_SEINEN_QUERY } = require('../queries/anilist')
+  let results: any[] = []
+  let currentPage = 1
+
+  while (results.length < perPage) {
+    const response = await axios.post(ANILIST_URL, {
+      query: TOP_SEINEN_QUERY,
+      variables: { page: currentPage, perPage: 25 },
+    })
+    const media = response.data.data?.Page?.media || []
+    if (media.length === 0) break
+
+    const filtered = media.filter((m: any) =>
+      m.tags?.some((t: any) => t.name === 'Seinen' && t.rank >= 60)
+    )
+    results = [...results, ...filtered]
+    currentPage++
+
+    if (currentPage > 5) break
+  }
+
+  return {
+    Page: {
+      media: results.slice(0, perPage)
+    }
+  }
+}

@@ -32,10 +32,9 @@ export default function TopSeinenPage() {
   async function addToList(manga: Manga) {
     try {
       await userClient.post('/lists', {
-        animeId: manga.id,
-        title: manga.title.english || manga.title.romaji,
-        coverImage: manga.coverImage.large,
-        status: 'plan_to_read',
+        media_id: manga.id,
+        media_type: 'MANGA',
+        status: 'planning',
       });
       setFeedback(`"${manga.title.english || manga.title.romaji}" added to your list.`);
       setTimeout(() => setFeedback(''), 3000);

@@ -5,7 +5,7 @@ import cors from '@fastify/cors'
 import jwt from '@fastify/jwt'
 import pool from './config/db'
 import { profileRoutes } from './routes/profile'
-import { listsRoutes } from './routes/lists'
+import { listsRoutes, listsUpdateRoute } from './routes/lists'
 import './middleware/auth'
 
 const PORT = parseInt(process.env.PORT || '3003', 10)
@@ -24,7 +24,7 @@ async function buildApp() {
 
   await fastify.register(cors, {
     origin: process.env.ALLOWED_ORIGIN || 'http://localhost:5173',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   })
 
   await fastify.register(jwt, { secret: JWT_SECRET })
@@ -51,6 +51,7 @@ async function buildApp() {
 
   await fastify.register(profileRoutes, { prefix: '/profile' })
   await fastify.register(listsRoutes, { prefix: '/lists' })
+  await fastify.register(listsUpdateRoute, { prefix: '/lists' })
 
   fastify.setErrorHandler(async (error, _request, reply) => {
     fastify.log.error(error)

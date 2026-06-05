@@ -107,3 +107,37 @@ export async function listsRoutes(fastify: FastifyInstance) {
     return reply.send(result.rows)
   })
 }
+
+export async function listsUpdateRoute(fastify: FastifyInstance) {
+  fastify.patch('/:id', { preHandler: [fastify.authenticate] }, async (request, reply) => {
+    const { userId } = request.user as JWTPayload
+    const { id } = request.params as { id: string }
+    const { status, score, progress, notes, is_favorite } = request.body as {
+      status?: string
+      score?: number
+      progress?: number
+      notes?: string
+      is_favorite?: boolean
+    }
+
+    const result = await pool.query(
+      `UPDATE user_lists
+       SET
+         status = COALESCE($1, status),
+         score = COALESCE($2, score),
+         progress = COALESCE($3, progress),
+         notes = COALESCE($4, notes),
+         is_favorite = COALESCE($5, is_favorite),
+         updated_at = NOW()
+       WHERE id = $6 AND user_id = $7
+       RETURNING *`,
+      [status, score, progress, notes, is_favorite, parseInt(id), userId]
+    )
+
+    if (result.rows.length === 0) {
+      return reply.status(404).send({ error: 'Entry not found' })
+    }
+
+    return reply.send(result.rows[0])
+  })
+}

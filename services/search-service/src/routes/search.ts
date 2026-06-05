@@ -4,7 +4,7 @@ import {
   searchManga,
   getMediaById,
   getTrending,
-  getTopSeinen,
+  getTopSeinen, getTopSeinenFiltered,
 } from '../services/anilist'
 
 interface SearchQuery {
@@ -107,7 +107,7 @@ export async function searchRoutes(fastify: FastifyInstance) {
       reply: FastifyReply
     ) => {
       const { page = '1', perPage = '10' } = request.query
-      const data = await getTopSeinen(parseInt(page), parseInt(perPage))
+      const data = await getTopSeinenFiltered(parseInt(page), parseInt(perPage))
       return reply.send(data)
     }
   )

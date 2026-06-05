@@ -114,6 +114,7 @@ export const TOP_SEINEN_QUERY = `
         genres
         tags {
           name
+          rank
           isMediaSpoiler
         }
         format

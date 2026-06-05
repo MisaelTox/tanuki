@@ -44,10 +44,9 @@ export default function DetailPage() {
     if (!media) return;
     try {
       await userClient.post('/lists', {
-        animeId: media.id,
-        title: media.title.english || media.title.romaji,
-        coverImage: media.coverImage.large,
-        status: type === 'MANGA' ? 'plan_to_read' : 'plan_to_watch',
+        media_id: media.id,
+        media_type: type || 'MANGA',
+        status: 'planning',
       });
       setFeedback('Added to your list!');
       setTimeout(() => setFeedback(''), 3000);
