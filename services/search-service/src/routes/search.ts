@@ -4,6 +4,7 @@ import {
   searchManga,
   getMediaById,
   getTrending,
+  getTopSeinen,
 } from '../services/anilist'
 
 interface SearchQuery {
@@ -35,11 +36,9 @@ export async function searchRoutes(fastify: FastifyInstance) {
       reply: FastifyReply
     ) => {
       const { q, page = '1', perPage = '20' } = request.query
-
       if (!q || q.trim().length < 1) {
         return reply.status(400).send({ error: 'Query parameter "q" is required' })
       }
-
       const data = await searchAnime(q.trim(), parseInt(page), parseInt(perPage))
       return reply.send(data)
     }
@@ -53,11 +52,9 @@ export async function searchRoutes(fastify: FastifyInstance) {
       reply: FastifyReply
     ) => {
       const { q, page = '1', perPage = '20' } = request.query
-
       if (!q || q.trim().length < 1) {
         return reply.status(400).send({ error: 'Query parameter "q" is required' })
       }
-
       const data = await searchManga(q.trim(), parseInt(page), parseInt(perPage))
       return reply.send(data)
     }
@@ -72,16 +69,13 @@ export async function searchRoutes(fastify: FastifyInstance) {
     ) => {
       const { id } = request.params
       const { type = 'ANIME' } = request.query
-
       const numericId = parseInt(id)
       if (isNaN(numericId)) {
         return reply.status(400).send({ error: 'Invalid media ID' })
       }
-
       if (!['ANIME', 'MANGA'].includes(type)) {
         return reply.status(400).send({ error: 'Type must be ANIME or MANGA' })
       }
-
       const data = await getMediaById(numericId, type)
       return reply.send(data)
     }
@@ -95,14 +89,25 @@ export async function searchRoutes(fastify: FastifyInstance) {
       reply: FastifyReply
     ) => {
       const { type = 'ANIME', page = '1', perPage = '20' } = request.query
-
       const validType = ['ANIME', 'MANGA'].includes(type) ? type : 'ANIME'
-
       const data = await getTrending(
         validType as 'ANIME' | 'MANGA',
         parseInt(page),
         parseInt(perPage)
       )
+      return reply.send(data)
+    }
+  )
+
+  // GET /search/top-seinen?page=1&perPage=10
+  fastify.get(
+    '/top-seinen',
+    async (
+      request: FastifyRequest<{ Querystring: TrendingQuery }>,
+      reply: FastifyReply
+    ) => {
+      const { page = '1', perPage = '10' } = request.query
+      const data = await getTopSeinen(parseInt(page), parseInt(perPage))
       return reply.send(data)
     }
   )

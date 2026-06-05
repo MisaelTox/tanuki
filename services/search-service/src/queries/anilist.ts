@@ -48,7 +48,7 @@ export const SEARCH_MANGA_QUERY = `
         lastPage
         hasNextPage
       }
-      media(search: $search, type: MANGA, sort: SEARCH_MATCH) {
+      media(search: $search, type: MANGA, tag: "Seinen", sort: SEARCH_MATCH) {
         id
         title {
           romaji
@@ -68,6 +68,54 @@ export const SEARCH_MANGA_QUERY = `
         averageScore
         popularity
         genres
+        tags {
+          name
+          isMediaSpoiler
+        }
+        format
+        startDate {
+          year
+          month
+          day
+        }
+      }
+    }
+  }
+`
+
+export const TOP_SEINEN_QUERY = `
+  query ($page: Int, $perPage: Int) {
+    Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+        currentPage
+        lastPage
+        hasNextPage
+      }
+      media(type: MANGA, tag: "Seinen", sort: SCORE_DESC, format: MANGA) {
+        id
+        title {
+          romaji
+          english
+          native
+        }
+        coverImage {
+          large
+          medium
+          color
+        }
+        bannerImage
+        description(asHtml: false)
+        status
+        chapters
+        volumes
+        averageScore
+        popularity
+        genres
+        tags {
+          name
+          isMediaSpoiler
+        }
         format
         startDate {
           year

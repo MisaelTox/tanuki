@@ -94,3 +94,12 @@ export async function getTrending(
     queryAniList(TRENDING_QUERY, { type, page, perPage })
   )
 }
+
+export async function getTopSeinen(page = 1, perPage = 10) {
+  const { TOP_SEINEN_QUERY } = require('../queries/anilist')
+  const response = await axios.post(ANILIST_URL, {
+    query: TOP_SEINEN_QUERY,
+    variables: { page, perPage },
+  })
+  return response.data.data
+}
