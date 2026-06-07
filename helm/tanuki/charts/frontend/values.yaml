@@ -1,0 +1,5 @@
+name: frontend
+image: tanuki-frontend
+tag: latest
+port: 80
+replicas: 1

@@ -1,0 +1,5 @@
+name: search-service
+image: tanuki-search-service
+tag: latest
+port: 3002
+replicas: 1

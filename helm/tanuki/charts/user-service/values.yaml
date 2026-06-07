@@ -1,0 +1,5 @@
+name: user-service
+image: tanuki-user-service
+tag: latest
+port: 3003
+replicas: 1

@@ -1,0 +1,24 @@
+dependencies:
+- name: auth-service
+  repository: file://charts/auth-service
+  version: 0.1.0
+- name: search-service
+  repository: file://charts/search-service
+  version: 0.1.0
+- name: user-service
+  repository: file://charts/user-service
+  version: 0.1.0
+- name: notification-service
+  repository: file://charts/notification-service
+  version: 0.1.0
+- name: frontend
+  repository: file://charts/frontend
+  version: 0.1.0
+- name: postgres
+  repository: file://charts/postgres
+  version: 0.1.0
+- name: redis
+  repository: file://charts/redis
+  version: 0.1.0
+digest: sha256:2184fe1901ef84fafd1bdf0d72577ea5f469b45d183bcad4a0e420d4b7a6840e
+generated: "2026-06-07T18:07:04.190784+02:00"

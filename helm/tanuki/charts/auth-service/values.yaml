@@ -1,0 +1,5 @@
+name: auth-service
+image: tanuki-auth-service
+tag: latest
+port: 3001
+replicas: 1

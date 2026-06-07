@@ -1,0 +1,4 @@
+name: redis
+image: redis
+tag: 7-alpine
+port: 6379

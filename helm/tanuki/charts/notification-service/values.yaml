@@ -1,0 +1,5 @@
+name: notification-service
+image: tanuki-notification-service
+tag: latest
+port: 3004
+replicas: 1

@@ -1,0 +1,61 @@
+# Valores globales compartidos por todos los servicios
+global:
+  registry: ""        # vacío = usa imágenes locales de minikube
+  namespace: tanuki
+
+# Auth Service
+authService:
+  name: auth-service
+  image: tanuki-auth-service
+  tag: latest
+  port: 3001
+  replicas: 1
+
+# Search Service
+searchService:
+  name: search-service
+  image: tanuki-search-service
+  tag: latest
+  port: 3002
+  replicas: 1
+
+# User Service
+userService:
+  name: user-service
+  image: tanuki-user-service
+  tag: latest
+  port: 3003
+  replicas: 1
+
+# Notification Service
+notificationService:
+  name: notification-service
+  image: tanuki-notification-service
+  tag: latest
+  port: 3004
+  replicas: 1
+
+# Frontend
+frontend:
+  name: frontend
+  image: tanuki-frontend
+  tag: latest
+  port: 80
+  replicas: 1
+
+# PostgreSQL
+postgres:
+  name: postgres
+  image: postgres
+  tag: 16-alpine
+  port: 5432
+  database: tanuki
+  user: tanuki
+  password: tanuki123
+
+# Redis
+redis:
+  name: redis
+  image: redis
+  tag: 7-alpine
+  port: 6379
