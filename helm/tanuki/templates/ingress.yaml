@@ -1,9 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: tanuki-ingress
+  name: tanuki-ingress-api
   namespace: tanuki
   annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
@@ -39,8 +40,20 @@ spec:
                 name: notification-service
                 port:
                   number: 3004
-          - path: /(/|$)(.*)
-            pathType: ImplementationSpecific
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tanuki-ingress-frontend
+  namespace: tanuki
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: tanuki.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: frontend
